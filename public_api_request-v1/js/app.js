@@ -12,7 +12,7 @@ $(document).ready(function()
     {
       let card = $(`<div class="card" id="${index}" href="#">`);
       $gallery.append(card);
-	    card.append(`<div class="card-img-container"><img class="user__image" src="${user.picture.large}"/></div>`);
+	    card.append(`<div class="card-img-container"><img src="${user.picture.large}"/></div>`);
 	    card.append(`<div class="card-info-container"><h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>`);
 	    card.append(`<p class="card-text"><a href="mailto:${user.email}">${user.email}</a></p>`);
 	    card.append(`<p class="card-text cap">${user.location.city}</p></div>`);
