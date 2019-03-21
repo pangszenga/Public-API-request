@@ -3,23 +3,52 @@ $(document).ready(function()
   const $search = $(".search-container");
   const $gallery = $("#gallery");
   let form = document.createElement("form");
-  let card = document.createElement("div");
   let modal = document.createElement("div");
+
+  //function
+  function display(data)
+  {
+    data.forEach((user, index) =>
+    {
+      let card = $(`<div class="card" id="${index}" href="#">`);
+      $gallery.append(card);
+	    card.append(`<div class="card-img-container"><img class="user__image" src="${user.picture.large}"/></div>`);
+	    card.append(`<div class="card-info-container"><h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>`);
+	    card.append(`<p class="card-text"><a href="mailto:${user.email}">${user.email}</a></p>`);
+	    card.append(`<p class="card-text cap">${user.location.city}</p></div>`);
+    });//end of forEach loop
+  }//end of display() function
+
+  //results from JSON
+  //{"results":[{"name":{"title":"miss","first":"deborah","last":"mckinney"},"location":{"street":"1890 church lane","city":"ely","state":"south yorkshire","postcode":"U8T 6JL","coordinates":{"latitude":"79.9487","longitude":"24.0485"},"timezone":{"offset":"-7:00","description":"Mountain Time (US & Canada)"}},"email":"deborah.mckinney@example.com","phone":"016977 81675"}],"info":{"seed":"b9624f899042301c","results":1,"page":1,"version":"1.2"}}
+
+  function modalDisplay()
+  {
+
+  }//end of modalDisplay() function
+
+  //fetch
+  fetch('https://randomuser.me/api/?results=12&nat=gb&inc=name,email,location,phone,picture')
+    .then(response => response.json())
+    .then(data => display(data.results))
+    .catch(error => console.error(error))
+  ;//end of fetch
 
   //construct
   form.innerHTML =
   `<input type="search" id="search-input" class="search-input" placeholder="Search...">
    <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">`;
 
-  card.innerHTML =
-  `<div class="card-img-container">
-   <img class="card-img" src="https://placehold.it/90x90" alt="profile picture">
-   </div>
-   <div class="card-info-container">
-   <h3 id="name" class="card-name cap">first last</h3>
-   <p class="card-text">email</p>
-   <p class="card-text cap">city, state</p>
-   </div>`;
+   // card.innerHTML =
+   // `<div class="card-img-container">
+   //  <img class="card-img" src="https://placehold.it/90x90" alt="profile picture">
+   //  </div>
+   //  <div class="card-info-container">
+   //  <h3 id="name" class="card-name cap">first last</h3>
+   //  <p class="card-text">email</p>
+   //  <p class="card-text cap">city, state</p>
+   //  </div>`;
+
 
   modal.innerHTML =
   `<div class="modal">
@@ -41,19 +70,11 @@ $(document).ready(function()
    </div>`;
    //remember to add class modal-container
 
-  //fetch
-  fetch('https://randomuser.me/api/')
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(myJson) {
-    console.log(JSON.stringify(myJson));
-  });
+
 
 
   //append things
   $search.append(form);
-  $gallery.append(card).first().addClass("card");
 
 
 
