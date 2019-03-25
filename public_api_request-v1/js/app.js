@@ -1,34 +1,80 @@
 $(document).ready(function()
 {
   const $search = $(".search-container");
-  const $gallery = $("#gallery");
+
   let form = document.createElement("form");
-  let modal = document.createElement("div");
+  let card = [];
+  let modal = [];
 
   //function
   function display(data)
   {
     data.forEach((user, index) =>
     {
-      let card = $(`<div class="card" id="${index}" href="#">`);
-      $gallery.append(card);
-	    card.append(`<div class="card-img-container"><img src="${user.picture.large}"/></div>`);
-	    card.append(`<div class="card-info-container"><h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>`);
-	    card.append(`<p class="card-text"><a href="mailto:${user.email}">${user.email}</a></p>`);
-	    card.append(`<p class="card-text cap">${user.location.city}</p></div>`);
-    });//end of forEach loop
-  }//end of display() function
+      let gallery = $("#gallery");
+      card = Array.from($(`
+        <div class="card" id="${index}">
+        <div class="card-img-container">
+        <img class="card-img" src="${user.picture.large}" alt="profile picture">
+        </div>
+        <div class="card-info-container">
+        <h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>
+        <p class="card-text">${user.email}</p>
+        <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
+        </div>
+        </div>
+      `));//card contents
 
-  //results from JSON
-  //{"results":[{"name":{"title":"miss","first":"deborah","last":"mckinney"},"location":{"street":"1890 church lane","city":"ely","state":"south yorkshire","postcode":"U8T 6JL","coordinates":{"latitude":"79.9487","longitude":"24.0485"},"timezone":{"offset":"-7:00","description":"Mountain Time (US & Canada)"}},"email":"deborah.mckinney@example.com","phone":"016977 81675"}],"info":{"seed":"b9624f899042301c","results":1,"page":1,"version":"1.2"}}
+      modal = Array.from($(`
+        <div class="modal-container" href="${index}">
+        <div class="modal">
+        <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+        <div class="modal-info-container">
+        <img class="modal-img" src="${user.picture.large}" alt="profile picture">
+        <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
+        <p class="modal-text">${user.email}</p>
+        <p class="modal-text cap">${user.location.city}</p>
+        <hr>
+        <p class="modal-text">${user.phone}</p>
+        <p class="modal-text">${user.location.street}, ${user.location.city}, ${user.location.postcode}</p>
+        <p class="modal-text">Birthday:${user.dob.date} </p>
+        </div>
+        </div>
+
+        <div class="modal-btn-container">
+        <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+        <button type="button" id="modal-next" class="modal-next btn">Next</button>
+        </div>
+        </div>
+      `));//modal content
+
+      gallery.append(card);
+      gallery.append(modal);
+
+
+      $(".modal-container").hide();
+
+      modalDisplay();
+
+    });//end of forEach loop
+
+
+
+  }//end of display() function
 
   function modalDisplay()
   {
+    //modal is currently hidden
+    //need to: 1. see what is selected 2. select and show modal 3. click functions
+
+    console.log(card);
+    console.log(modal);
+
 
   }//end of modalDisplay() function
 
   //fetch
-  fetch('https://randomuser.me/api/?results=12&nat=gb&inc=name,email,location,phone,picture')
+  fetch('https://randomuser.me/api/?results=12&nat=gb&inc=name,email,location,phone,picture,dob')
     .then(response => response.json())
     .then(data => display(data.results))
     .catch(error => console.error(error))
