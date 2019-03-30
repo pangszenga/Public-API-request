@@ -6,14 +6,6 @@ $(document).ready(function()
   let card = [];
   let modal = [];
 
-  //construct
-  form.innerHTML =
-  `<input type="search" id="search-input" class="search-input" placeholder="Search...">
-   <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">`;
-
-
-  //append things
-  $search.append(form);
 
   //function
   function display(data)
@@ -66,7 +58,6 @@ $(document).ready(function()
 
 
       $(".modal-container").hide();
-      search();
 
     });//end of forEach loop
 
@@ -149,6 +140,36 @@ $(document).ready(function()
     .then(data => display(data.results))
     .catch(error => console.error(error))
   ;//end of fetch
+
+  //search
+  form.innerHTML =
+  `<input type="text" id="search-input" class="search-input" placeholder="Search...">
+   <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">`;
+  $search.append(form);
+
+  const filter = function()
+  {
+    let input = $("#search-input")[0].value;
+    console.log(input);
+
+    for (let i = 0; i < $(".card").length; i ++)
+    {
+      const nameh3 = $(".card h3")[i];
+      const name = nameh3.innerHTML;
+
+      if (name.includes(input))
+      {
+        nameh3.closest(".card").style.display = "";
+      }
+      else
+      {
+        nameh3.closest(".card").style.display = "none";
+      };//end of conditional statement
+    };//end of for loop
+
+  };//end of filter variable
+
+  $search.on('keyup', filter);
 
 
 });//documment load ends

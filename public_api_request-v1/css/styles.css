@@ -94,6 +94,7 @@ header h1 {
     border: 1px solid rgba(50, 50, 50, 0.3);
     transition: .4s ease-out;
     overflow: hidden;
+		transition: .2s box-shadow ease-in-out ;
 }
 
 .card-img {
@@ -119,6 +120,10 @@ header h1 {
 
 .cap {
     text-transform: capitalize;
+}
+
+.card:hover {
+  box-shadow: 5px 10px;
 }
 
 
