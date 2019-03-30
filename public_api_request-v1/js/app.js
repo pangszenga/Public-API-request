@@ -6,6 +6,15 @@ $(document).ready(function()
   let card = [];
   let modal = [];
 
+  //construct
+  form.innerHTML =
+  `<input type="search" id="search-input" class="search-input" placeholder="Search...">
+   <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">`;
+
+
+  //append things
+  $search.append(form);
+
   //function
   function display(data)
   {
@@ -51,27 +60,83 @@ $(document).ready(function()
       gallery.append(card);
       gallery.append(modal);
 
-
       $(".modal-container").hide();
-
-      modalDisplay();
 
     });//end of forEach loop
 
+    $("div .card").on("click", (e) =>
+    {
+      let cardClickedOn = $(e.target).closest(".card");
 
+      if (e.type === "click")
+      {
+        $(`[href = '${cardClickedOn[0].id}']`).show();
+        modalInteractions();
+      }
+    });//end of Event listener
 
   }//end of display() function
 
-  function modalDisplay()
+  function modalInteractions ()
   {
-    //modal is currently hidden
-    //need to: 1. see what is selected 2. select and show modal 3. click functions
+    const close = $("#modal-close-btn");
+    const prev = $("#modal-prev");
+    const next = $("#modal-next");
 
-    console.log(card);
-    console.log(modal);
+    $("[type = 'button']").on("click", function(e)
+    {
+      let buttonClickedOn = $(e.target).closest("[type='button']");
+      let currentCard = $(e.target).closest(".modal-container");
+      let getCard = $(".modal-container")[0].getAttribute("href");
+      let raw = currentCard[0].getAttribute("href");
+      let num = parseInt(raw);
+      // console.log(buttonClickedOn[0].id);
+
+      if (buttonClickedOn[0].id === "modal-close-btn")
+      {
+        console.log("close");
+        $(".modal-container").hide();
+        num = 0;
+      }
+      else if (buttonClickedOn[0].id === "modal-prev")
+      {
+        console.log("prev");
+        currentCard.hide();
+
+        if (num === 0)
+        {
+          $("[href = '11']").show();
+        }
+        else
+        {
+          num -= 1;
+          $(`[href = '${num}']`).show();
+        };
 
 
-  }//end of modalDisplay() function
+
+      }
+      else if (buttonClickedOn[0].id === "modal-next")
+      {
+        console.log("prev");
+        currentCard.hide();
+
+        if (num ===11)
+        {
+          $("[href = '0']").show();
+        }
+        else
+        {
+          num += 1;
+          $(`[href = '${num}']`).show();
+        };
+
+      };// end of conditional statement
+
+    });//end of button handler
+
+  }//end of modalInteractions() function
+
 
   //fetch
   fetch('https://randomuser.me/api/?results=12&nat=gb&inc=name,email,location,phone,picture,dob')
@@ -80,53 +145,8 @@ $(document).ready(function()
     .catch(error => console.error(error))
   ;//end of fetch
 
-  //construct
-  form.innerHTML =
-  `<input type="search" id="search-input" class="search-input" placeholder="Search...">
-   <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">`;
-
-   // card.innerHTML =
-   // `<div class="card-img-container">
-   //  <img class="card-img" src="https://placehold.it/90x90" alt="profile picture">
-   //  </div>
-   //  <div class="card-info-container">
-   //  <h3 id="name" class="card-name cap">first last</h3>
-   //  <p class="card-text">email</p>
-   //  <p class="card-text cap">city, state</p>
-   //  </div>`;
-
-
-  modal.innerHTML =
-  `<div class="modal">
-   <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-   <div class="modal-info-container">
-   <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
-   <h3 id="name" class="modal-name cap">name</h3>
-   <p class="modal-text">email</p>
-   <p class="modal-text cap">city</p>
-   <hr>
-   <p class="modal-text">(555) 555-5555</p>
-   <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-   <p class="modal-text">Birthday: 10/21/2015</p>
-   </div>
-   </div>
-   <div class="modal-btn-container">
-   <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-   <button type="button" id="modal-next" class="modal-next btn">Next</button>
-   </div>`;
-   //remember to add class modal-container
-
-
-
-
-  //append things
-  $search.append(form);
-
-
-
-
-
-
-
 
 });//documment load ends
+
+
+//regex DOB
