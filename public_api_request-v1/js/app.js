@@ -123,9 +123,9 @@ $(document).ready(function()
         {
           num += 1;
           $(`[href = '${num}']`).show();
-        };
+        }
 
-      };// end of conditional statement
+      }// end of conditional statement
 
     });//end of button handler
 
@@ -164,8 +164,8 @@ $(document).ready(function()
       else
       {
         nameh3.closest(".card").style.display = "none";
-      };//end of conditional statement
-    };//end of for loop
+      }//end of conditional statement
+    }//end of for loop
 
   };//end of filter variable
 
@@ -173,6 +173,3 @@ $(document).ready(function()
 
 
 });//documment load ends
-
-
-//regex DOB
