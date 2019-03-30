@@ -21,6 +21,10 @@ $(document).ready(function()
     data.forEach((user, index) =>
     {
       let gallery = $("#gallery");
+      let rawDob = user.dob.date;
+      let dob = rawDob.slice(0,10);
+
+
       card = Array.from($(`
         <div class="card" id="${index}">
         <div class="card-img-container">
@@ -46,7 +50,7 @@ $(document).ready(function()
         <hr>
         <p class="modal-text">${user.phone}</p>
         <p class="modal-text">${user.location.street}, ${user.location.city}, ${user.location.postcode}</p>
-        <p class="modal-text">Birthday:${user.dob.date} </p>
+        <p class="modal-text">Birthday:${dob} </p>
         </div>
         </div>
 
@@ -60,7 +64,9 @@ $(document).ready(function()
       gallery.append(card);
       gallery.append(modal);
 
+
       $(".modal-container").hide();
+      search();
 
     });//end of forEach loop
 
@@ -112,9 +118,6 @@ $(document).ready(function()
           num -= 1;
           $(`[href = '${num}']`).show();
         };
-
-
-
       }
       else if (buttonClickedOn[0].id === "modal-next")
       {
@@ -136,6 +139,8 @@ $(document).ready(function()
     });//end of button handler
 
   }//end of modalInteractions() function
+
+
 
 
   //fetch
